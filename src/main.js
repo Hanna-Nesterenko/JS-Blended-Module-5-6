@@ -38,3 +38,37 @@ console.log(getActiveCourses(coursesData));
 //     isActive: true
 //   }
 // ]
+
+///Етап 2 — Огляд активних курсів
+
+const createCoursesOverview = courses => {
+  const activeCourses = getActiveCourses(courses);
+  const totalStudents = activeCourses.reduce(
+    (acc, item) => (acc += item.students),
+    0
+  );
+  const allHaveStudents = activeCourses.every(course => course.students > 0);
+
+  const hasFreeCourse = activeCourses.some(course => course.price === 0);
+
+  const sortedCourses = activeCourses.toSorted((a, b) => a.price - b.price);
+
+  const titles = sortedCourses.map(
+    course => `${course.title} — ${course.price} грн`
+  );
+
+  return {
+    titles,
+    totalStudents,
+    allHaveStudents,
+    hasFreeCourse,
+  };
+};
+
+console.log(createCoursesOverview(coursesData));
+// {
+//   titles: ['HTML & CSS — 900 грн', 'JavaScript Basics — 1200 грн'],
+//   totalStudents: 45,
+//   allHaveStudents: true,
+//   hasFreeCourse: false
+// }
