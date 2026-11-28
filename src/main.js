@@ -106,3 +106,34 @@ console.log(course.getStudentsCount()); // 21
 
 console.log(course.getInfo());
 // JavaScript Basics: 21 студентів, 1200 грн
+
+///Етап 4 — Каталог курсів
+
+class CourseCatalog {
+  #courses;
+  constructor(courses) {
+    const activeCourses = getActiveCourses(courses);
+    const courseInstances = activeCourses.map(course => new Course(course));
+    this.#courses = courseInstances;
+  }
+
+  addCourse(course) {
+    this.#courses.push(course);
+  }
+  findCourse(title) {
+    return this.#courses.find(course => course.title === title);
+  }
+  getTotalPotentialIncome() {
+    return this.#courses.reduce(
+      (total, course) => total + course.price * course.getStudentsCount(),
+      0
+    );
+  }
+}
+
+const catalog = new CourseCatalog(coursesData);
+
+console.log(catalog.findCourse('HTML & CSS').getInfo());
+// HTML & CSS: 25 студентів, 900 грн
+
+console.log(catalog.getTotalPotentialIncome()); // 46500
